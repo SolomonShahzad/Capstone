@@ -6,7 +6,6 @@ import {firebaseApp} from '../Firebase'
 
 class Login extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -25,6 +24,7 @@ class Login extends Component {
             .catch(error=> alert(error.message));
             //this.setState({error})
     }
+    
     render() {
         return (
             <div className="container" style={{margin: '5%'}}>

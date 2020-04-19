@@ -7,32 +7,55 @@ import {firebaseApp} from './Firebase';
 import Dashboard from './components/Dashboard'
 
 var items = [];
+var itemPrices = [];
+var a = 0;
+var taxRate = 0;
+var total = 0;
 
 function addItem(){
   var itemName = document.getElementById("itemID").value;
   var itemPrice = document.getElementById("priceID").value;
-  items.push(" " + itemName + " - " + itemPrice);
+    a++;
+  items.push(a + ": " + itemName + " - " + itemPrice);
+  itemPrices.push(parseFloat(itemPrice));
   alert(itemName + " - " + itemPrice + " was added to your cart");
 }
 
-function updateItem(){
-  var originalItemName = document.getElementById("originalItemID").value
-  for (var i = 0; i < items.length; i++) { 
-    if (items[i] === originalItemName) {
-      items.splice(i, 1, originalItemName);
-
-    }
-  }
-}
+// function updateItem(){
+//     var originalItemIndex = document.getElementById("originalItemID").value;
+//     var newItemName = document.getElementById("NewItemID").value;
+//     var newItemPrice = document.getElementById("NewItemPriceID").value;
+    
+//     items.splice(originalItemIndex - 1, 1, originalItemIndex + ": " + newItemName + " - " + newItemPrice);
+//   }
 
 function deleteItem(){
-  var x = 2;
-  alert(x + 2);
+    var itemIndex = document.getElementById("DeleteItemID").value;
+    items.splice(itemIndex - 1, 1);
+    itemPrices.splice(itemIndex - 1, 1);
+    document.getElementById("viewAllItemsID").innerHTML = items;
+    // total = 0;
 }
 
 function viewAllItems(){
-  document.getElementById("viewAllItemsID").innerHTML = items;
-  alert("test");
+    for (var i = 0; i < itemPrices.length; i++) {
+        total += itemPrices[i];
+}   
+    
+    var salesTax = total * (taxRate / 100);
+    total = total + salesTax;
+
+    alert("Total - $" + total);
+
+    document.getElementById("itemsTotalID").innerHTML = total;
+    document.getElementById("viewAllItemsID").innerHTML = items;
+
+    total = 0;
+}
+
+function addTaxRate() {
+    taxRate = parseFloat(document.getElementById("taxRateID").value);
+    document.getElementById("viewTaxRateID").innerHTML = taxRate;
 }
 
 class App extends Component {
@@ -77,7 +100,7 @@ class App extends Component {
                 <div className="App">
                     <div className="App-header">
                         {/* <img src={logo} className="App-logo" alt="logo"/> */}
-                        <h2>POCKET CASHIERR </h2>
+                        <h2>POCKET CASHIER </h2>
                     </div>
 
                     <nav className="navbar navbar-default navbar-static-top">
@@ -116,6 +139,16 @@ class App extends Component {
                     </div>
 
                     <div>
+                        <input type="text" placeholder="6% - just add Num." id="taxRateID"></input> 
+                        <br></br> 
+                        <button type="button" onClick={addTaxRate}>Add Tax Rate</button>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                <div></div>
+                        
+                    <div>
                         <input type="text" placeholder="item" id="itemID"></input> 
                         <input type="text" placeholder="price" id="priceID"></input>
                         <br></br> 
@@ -124,11 +157,11 @@ class App extends Component {
                     <br></br>
                     <br></br>
                     <br></br>
-                <div>
-                    {/* <label>replace</label> */}
-                    <input type="text" placeholder="original name" id="originalItemID"></input> 
-                    {/* <br></br>  */}
-                    {/* <label>with</label>  */}
+                {/* <div>
+                    <label>replace</label>
+                    <input type="text" placeholder="original item number" id="originalItemID"></input> 
+                    <br></br> 
+                    <label>with</label> 
                     <input type="text" placeholder="new item name" id="NewItemID"></input> 
                     <input type="text" placeholder="new item price" id="NewItemPriceID"></input>
                     <br></br>  
@@ -136,10 +169,10 @@ class App extends Component {
                 </div>
                     <br></br>
                     <br></br>
-                    <br></br>
+                    <br></br> */}
 
                     {/* <label>Delete</label> */}
-                    <input type="text" placeholder="Delete Item: enter name" id="DeleteItemID"></input>
+                    <input type="text" placeholder="Enter item number" id="DeleteItemID"></input>
                     <br></br> 
                     <button type="button" onClick={deleteItem}>Delete Item</button>
 
@@ -154,7 +187,8 @@ class App extends Component {
                     <br></br>
 
                     <p><span id="viewAllItemsID"></span> - All items will display here</p>
-
+                    <p><span id="itemsTotalID"></span> - Total</p>
+                    <p><span id="viewTaxRateID"></span>% - Tax Rate</p>
                     <br></br>
                     <br></br>
                     <br></br>

@@ -6,7 +6,6 @@ import {firebaseApp,users} from '../Firebase'
 
 class Register extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -46,7 +45,7 @@ class Register extends Component {
                            style={{margin: '10px'}}
                            onChange={({target})=>this.setState({email: target.value})}
                     />
-                    <input type="text"
+                    <input type="password"
                            placeholder="Enter Password"
                            className="form-control"
                            style={{margin: '10px'}}

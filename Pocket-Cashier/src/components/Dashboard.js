@@ -44,7 +44,6 @@ class Dashboard extends Component {
             snap.forEach((d, i)=> this.setState({completeWishlist: d.val()}))
 
         })
-
     }
 
     renderWishlist() {
